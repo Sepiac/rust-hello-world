@@ -1,4 +1,5 @@
 use rand::Rng;
+use core::num;
 use std::io;
 use std::ops;
 
@@ -39,11 +40,15 @@ impl NumberGame {
     }
 }
 
+impl Default for NumberGame {
+    fn default() -> Self {
+        Self { secret_number: Self::generate_secret_number(1..10), guessed_number: -1 }
+    }
+}
+
 fn main() {
     let mut ng = NumberGame {
-        secret_number: NumberGame::generate_secret_number(1..101),
-        // TODO(sepiac): figure out how to leave this uninitialized
-        guessed_number: -1,
+        ..Default::default()
     };
     ng.play();
 }
