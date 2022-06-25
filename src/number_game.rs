@@ -11,6 +11,7 @@ impl NumberGame {
         println!("What do you think the secret number is?");
         self.guessed_number = Self::get_guessed_number()
     }
+
     pub fn play(&mut self) {
         self.init();
         while self.secret_number != self.guessed_number {
@@ -24,6 +25,7 @@ impl NumberGame {
 
         println!("You have correctly guessed the number!");
     }
+
     fn generate_secret_number(range: ops::Range<i32>) -> i32 {
         let mut rng = rand::thread_rng();
         rng.gen_range(range)
