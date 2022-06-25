@@ -2,22 +2,38 @@ use rand::Rng;
 use std::io;
 use std::ops;
 
-fn main() {
-    let secret_number = generate_secret_number(0..1000);
+struct NumberGame {
+    secret_number: i32,
+    guessed_number: i32,
+}
 
-    println!("What do you think the secret number is?");
-    let mut guessed_number = get_guessed_number();
-
-    while secret_number != guessed_number {
-        if guessed_number > secret_number {
-            println!("Incorrect! Try lower.")
-        } else if guessed_number < secret_number {
-            println!("Incorrect! Try higher.")
-        }
-        guessed_number = get_guessed_number();
+impl NumberGame {
+    fn init(&mut self) {
+        println!("What do you think the secret number is?");
+        self.guessed_number = get_guessed_number()
     }
+    fn play(&mut self) {
+        self.init();
+        while self.secret_number != self.guessed_number {
+            if self.guessed_number > self.secret_number {
+                println!("Incorrect! Try lower.")
+            } else if self.guessed_number < self.secret_number {
+                println!("Incorrect! Try higher.")
+            }
+            self.guessed_number = get_guessed_number();
+        }
+    
+        println!("You have correctly guessed the number!");
+    }
+}
 
-    println!("You have correctly guessed the number!");
+fn main() {
+   let mut ng = NumberGame{
+    secret_number: generate_secret_number(1..101),
+    // TODO(sepiac): figure out how to leave this uninitialized
+    guessed_number: -1,
+   };
+   ng.play();
 }
 
 fn generate_secret_number(range: ops::Range<i32>) -> i32 {
