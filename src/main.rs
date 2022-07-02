@@ -1,5 +1,3 @@
-use core::num;
-
 mod number_game;
 
 fn main() {
