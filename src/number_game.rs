@@ -17,7 +17,7 @@ impl NumberGame {
     fn init(&mut self) -> i32 {
         println!("What do you think the secret number is?");
         self.guessed_number = Self::get_guessed_number();
-       Self::generate_secret_number(&self)
+        self.generate_secret_number()
     }
 
     pub fn play(&mut self) {
