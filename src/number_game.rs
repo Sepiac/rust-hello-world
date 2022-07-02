@@ -1,23 +1,32 @@
 use rand::Rng;
-use std::io;
-use std::ops;
+use std::{io, ops};
+
 pub struct NumberGame {
-    pub secret_number: i32,
-    pub guessed_number: i32,
+    guessed_number: i32,
+    secret_number_range: ops::Range<i32>,
 }
 
 impl NumberGame {
-    fn init(&mut self) {
+    pub fn new(secret_number_range: ops::Range<i32>) -> Self {
+        Self {
+            secret_number_range,
+            ..Default::default()
+        }
+    }
+
+    fn init(&mut self) -> i32 {
         println!("What do you think the secret number is?");
-        self.guessed_number = Self::get_guessed_number()
+        self.guessed_number = Self::get_guessed_number();
+       Self::generate_secret_number(&self)
     }
 
     pub fn play(&mut self) {
-        self.init();
-        while self.secret_number != self.guessed_number {
-            if self.guessed_number > self.secret_number {
+        let secret_number = self.init();
+
+        while secret_number != self.guessed_number {
+            if self.guessed_number > secret_number {
                 println!("Incorrect! Try lower.")
-            } else if self.guessed_number < self.secret_number {
+            } else if self.guessed_number < secret_number {
                 println!("Incorrect! Try higher.")
             }
             self.guessed_number = Self::get_guessed_number();
@@ -26,9 +35,9 @@ impl NumberGame {
         println!("You have correctly guessed the number!");
     }
 
-    fn generate_secret_number(range: ops::Range<i32>) -> i32 {
+    fn generate_secret_number(&self) -> i32 {
         let mut rng = rand::thread_rng();
-        rng.gen_range(range)
+        rng.gen_range(self.secret_number_range.clone())
     }
 
     fn get_guessed_number() -> i32 {
@@ -43,8 +52,8 @@ impl NumberGame {
 impl Default for NumberGame {
     fn default() -> Self {
         Self {
-            secret_number: Self::generate_secret_number(1..10),
             guessed_number: -1,
+            secret_number_range: 1..10
         }
     }
 }

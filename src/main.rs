@@ -1,8 +1,8 @@
+use core::num;
+
 mod number_game;
 
 fn main() {
-    let mut ng = number_game::NumberGame {
-        ..Default::default()
-    };
+    let mut ng = number_game::NumberGame::new(10..20);
     ng.play();
 }
